@@ -1,0 +1,28 @@
+When playing this game in 256 and 16 bit colours, funny things can occur that I 
+haven't fully tested yet. So for the best visuals, I recommend you play in full 
+32 bit magnificance.
+
+
+Windows XP and later, you're home and hosed.
+
+Windows 98/ME/2k, you will need to put Microsoft's gdiplus.dll 
+
+http://download.microsoft.com/download/platformsdk/redist/3097/W98NT42KMeXP/EN-US/gdiplus_dnld.exe
+or
+http://www.microsoft.com/msdownload/platformsdk/sdkupdate/psdkredist.htm
+
+Put the dll somewhere where multimine will find it (the same directory as 
+multimine, <WINDOWS>\System32). Microsoft's licence mentions something about only
+being 'allowed' to put it in the same directory as your .exe file. I leave this
+choice to your disgression.
+
+Windows 95, 
+I tried multimine on windows 95 and it complained about WS2_32.dll and whatnot. I
+figure anyone that still uses that operating system has either updated it to
+include those things, or isn't connected to a network or the internet. A computer
+in my house is connected to my network and is connected to the internet, exception
+to the rule :)
+
+You're operating system not mentioned here? Isn't that a shame. Enquire about
+being a 'modder' hehe. After dealing with the Windows GUI, I'm in no mood to deal
+with any other less documented GUI.

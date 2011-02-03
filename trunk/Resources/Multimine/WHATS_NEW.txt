@@ -1,0 +1,76 @@
+What's new in each version?
+Have a read of all the new features and bug fixes below.
+
+Version 26:
+
+I've finally put it into source control at work, so there's less likelyhood of losing changes, and more likely hood of being able to roll back changes.
+
+You also have a new game type  ***** 3BV *****
+
+The beginner is still 9x9, it will be 8x8 soon.
+
+Version 25:
+
+THIS IS COMPILED AS DEBUG. Please note that I've compiled this in debug mode to see if the pesky chatting bug is a release/debug problem.
+
+What happened to versions 23 and 24. Who knows!
+
+Well, this is a great release. I've added a new Tournament mode where the server can pick how much each click is worth point wise. Have a read of the scoring text file for all the details.
+
+Disregard those scoring text boxes it in deathmatch mode, while the text boxes are not read-only, they have no affect on the game. Version 26 will have that sorted I promise.
+
+Now you don't need to flag all the cells with mines underneith them for the game to be declared over. Mearly uncovering all non-mine squares will finish the game. Thanks to Schu for telling me that's how the pro's play.
+
+Version 22:
+
+Luigi Easter Egg voting actually goes and votes. Thanks goes to Luigi for donating his webspace.
+
+Version 21:
+
+Fixed the default cancel button problem.
+
+Version 20:
+
+Fixed some colour changing bugs.
+Sometimes when people leave it still removes the wrong person...
+
+Version 19:
+
+Grays out join button while it tries to join.
+
+Game On! text shows when a game is on, and disappears when the game stops.
+
+When a player leaves, the main window used to come to the front, if you were typing a 
+message it made this quite annoying. This problem has been fixed.
+
+Version 19 is not compatible with previous versions because of the fix to Bug 5
+
+Backwards compatibility is added, so older versions can play with newer versions,
+this is only the case if the newer version has had no major changes to how the game
+is played, only small bug fixes that would not get in the way of the game.
+This should mean that players won't have to download the latest version every single
+time a small fix or change has been made.
+
+Players aren't allowed to change their colour during a game.
+
+Title of the chat screen is improved for clients.
+Add a icon to the chat screen. There you go Jacob, HAPPY NOW?
+
+Bug 2 no longer seems to exist. Not documented well enough to begin with. I may have fixed
+it and just not put it down here... Who knows.
+Fixed Bug 4.
+Fixed Bug 5.
+Fixed Bug 6.
+Fixed Bug 7.
+Fixed Bug 8.
+Fixed Bug 9.
+Fixed Bug 10.
+
+
+
+Version 18: 
+
+Chat works properly on all tested computers.
+
+This is the first release that most features of the game are finally in and most bugs
+that make the game unplayable are out of the game.

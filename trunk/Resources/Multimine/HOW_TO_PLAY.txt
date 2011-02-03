@@ -1,0 +1,28 @@
+This is, as the name suggests a multiplayer game.
+
+Unless you've not played minesweeper before, playing this game by one-self improve your skills for multiplayer.
+
+When you ofl the multimine.exe game, you will be greeted with a 10 by 10 square grid of cells. You won't get any points for playing on this, nor will the timer start, nor can you flag cells.
+
+To play the game you can either be a server of a game, or join a game your friend is serving.
+
+To start a server, go to the File menu and select Create Server...
+Then press the Start Server button.
+
+To join a server, go to the File menu and select Join Server...
+Then type in the computer name where the server is on. This can take the form of
+
+computerName:portNumber
+IPAddress:portNumber
+
+or just 
+computerName
+IPAddress
+if it's on the default port of 14988
+
+for example, if your friend is is playing on www.google.com on the default port you could just type in
+www.google.com
+
+if they were playing on a non-default port say 15000 you would type
+www.google.com:15000
+

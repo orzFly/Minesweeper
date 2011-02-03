@@ -1,0 +1,21 @@
+Team based games.
+ie. More than just deathmatch game type.
+
+Dedicated server written in ANSI C.
+Client that can send dedicated servers messages to change their settings. 
+
+Clients message a server about the Luigi question.
+Servers message a central server when they play a game.
+
+Consider how to solve when clients dont want to click anywhere.
+ideas so far include the following:
+
+-deduct points after 20 seconds of idle, this can be discriminatory to the losers.
+-deduct points from the highest player(s) until everyone is zero or someone clicks.
+-have a give up button which stops points going down, but also forfeits clicking.
+-The game can end if all players have clicked the give up button, finally a use for the
+smilie!
+
+Recording to the Minesweeper Clone video files.
+
+When the game is over, to uncover and mark with X's over the incorrectly flagged cells.

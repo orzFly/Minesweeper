@@ -1,0 +1,117 @@
+Bug 1.
+
+Visual studio Release build cannot send chat messages properly.
+Visual studio Debug build sends chat messages just FINE.
+
+They are built from the same code. Clive can't explain why :(
+How am i meant to fix something that doesnt occur in the debug version!
+
+At the moment, in current releases in order to have a chance to find this problem
+there are system debug notes printed to the screen when you send messages.
+The client gets a copy of the message it is sending, along with the number of 
+bytes the message is.
+the server gets a copy of the message it received, along with the number of bytes
+the message was.
+
+Currently, i assume that these two messages are different on client and server
+where this chatting bug occurs. Yet to be tested of course.
+
+Another option is to run the debug version instead, it's 4 times as large though.
+
+**** solution... 
+msg.txt is a char[100]
+
+debug code
+int ret = SendDlgItemMessage(hWndChat, IDC_EDIT_CHAT, EM_GETLINE, 0, (LPARAM)&msg.text);
+
+despite the address of the char* being sent, it still copied the string to the char*
+
+in the release version, this DOES NOT WORK. durrrr...
+code fix,
+
+int ret = SendDlgItemMessage(hWndChat, IDC_EDIT_CHAT, EM_GETLINE, 0, (LPARAM)msg.text);
+		
+		
+Bug 3.
+
+When you change your own colour, it doesn't get updated in the main window.
+that is, until someone else changes their colour, or you start the game.
+
+**** solution...
+Simple programming, just had to get around to it, that's all.
+
+Bug 5.
+
+Danno and Amer reported playing a game where at the end they had different
+scores on each client. While I believe them, I can't replicate it.
+
+Solution would be for the server to remember the scores of clients, and send
+the final scores at the end.
+
+**** solution...
+Turns out if a player flagged a square, then someone else reveals it, it wasnt revealed on
+the original client's window! incorrect if statement!
+So that's why sometimes scores weren't correct.
+To find this problem, I implemented the server knowing the score anyway, now the server
+sends the raw score along with clicks so no mistakes will ever happen again score wise.
+
+Bug 10.
+
+Sometimes players names don't correctly show up in the player list box.. filled with junk.
+Possible solution would be fill name string with \0's
+
+**** solution...
+memset(newname, 0, NAME_MAX);
+when drawing the name string, I was replacing \0's with L' ', long byte space. This doesn't
+replace the 0xCD longbyte than new creates :) This only happened when players changed their
+name in the game, because I created a new string to get it from the edit box, and didnt make that
+new string all 0's like I do when creating a player originally.
+
+Bug 9.
+
+When a player leaves, the delete player doesnt work so well because on other clients
+it leaves two copies of another player there... how crappy.
+
+**** solution...
+This was to do with when players change their names, it deleted them and added them to the list.
+Now it just invalidates the rectangle and things work so much better now.
+
+Bug 6.
+
+When a player leaves during the game, all the flags go gray.
+
+**** solution...
+Simple fix.
+
+Bug 8.
+
+I dont think the cancel button really works, it might be the case where if you click it
+the whole applation becames inusable
+
+**** solution...
+EndDialog instoad of DestroyWindow
+
+Bug 2.
+
+When server closes the connection, clients "join server" and "create server"
+don't turn enabled again.
+
+**** solution...
+This problem seems to have dissapeared in version 19 as far as I am aware.
+Better documentation of the bug if it comes up again.
+
+Bug 4.
+
+If a game is played that is larger than your screen width or height, the game
+crashes when clicking.
+
+**** solution...
+It just took some more code to check that the game doesnt exceed the screen's limits.
+
+Bug 7.
+
+When a player minimises the game, and the game then starts, it may not be the right size
+
+**** solution...
+Show the window when the game starts, i couldnt figure out how to change the windows size
+while it was still minimised that would stay working when it was restored.

@@ -1,0 +1,51 @@
+In deathmatch mode you get 
+
++5 points for flagging a square
+-5 points for unflagging a square
+-20 points for uncovering a mine
+-30 points if you had previously flagged a cell that another player uncovers and in fact has no mine underneith it
++x points for revealing a cell with x number of neighbouring mines.
+-40 if you have a cell flagged at the end of a game when it was in fact not a mine underneith.
+
+What happens when you reveal a cell that has no neighbours and it expands a large section. Well I believe that you will get points for all the directly neighbouring 8 cells, but all other revealed cells you get diddly squat.
+
+In tournament mode I hope that it's fairly straight forward but I will spell it out.
+
+Previous Player Incorrectly Flagged Cell Penalty refers to the situation as follows: If a player flags a cell as having a mine underneith it, but you uncover that cell and it actually didn't have a mine underneith it, then that other player loses this amount of points.
+
+Revealed Mine Cell is the Penalty incurred by having revealed a cell that contained a mine underneith it.
+
+Flagged Cell refers to the points given when flagging a cell (and taken back when unflagging a cell)
+
+Incorrectly Flagged Cell at End of Game refers to the amount of points deducted from you at the end of a game for all the cells that you've flagged that don't have mines underneith them.
+
+Multiplier For Neighbouring (Neighboring for americans) Mines is best described using examples
+
+If the multiplier is 1 you will get
+
+1 point for revealing a cell with 1 neighbouring mine
+2 points for revealing a cell with 2 neighbouring mines
+3 points for revealing a cell with 3 neighbouring mines
+etc.
+
+If the multiplier is 1.5 you will get
+
+1 point for revealing a cell with 1 neighbouring mine
+3 points for revealing a cell with 2 neighbouring mines
+4 points for revealing a cell with 3 neighbouring mines
+6 points for revealing a cell with 4 neighbouring mines
+
+If the multiplier is 0.5 you will get
+
+0 points for revealing a cell with 1 neighbouring mines
+1 point for revealing a cell with 2 neighbouring mines
+1 point for revealing a cell with 3 neighbouring mines
+2 points for revealing a cell with 4 neighbouring mines
+
+If you're trying to figure out the pattern, it's simply a C++ cast operation.
+
+int yourScore = 0;
+int neighbouringBombs = 4;
+double multiplier = atof("1.5");
+
+yourScore = neighbouringBomb * multiplier
