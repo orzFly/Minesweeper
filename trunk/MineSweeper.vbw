@@ -1,4 +1,4 @@
-frmGame = 94, 20, 951, 491, Z, 22, 29, 879, 517, C
+frmGame = 94, 20, 951, 491, , 22, 29, 879, 517, C
 clsMinesweeperBoard = 25, 21, 656, 510, C
 basMath = 0, 0, 631, 489, C
 basWin32API = 66, 87, 697, 576, C

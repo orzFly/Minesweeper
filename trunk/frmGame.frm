@@ -2,10 +2,11 @@ VERSION 5.00
 Begin VB.Form frmGame 
    Appearance      =   0  'Flat
    BackColor       =   &H00C0C0C0&
+   BorderStyle     =   1  'Fixed Single
    Caption         =   "frmGame"
    ClientHeight    =   6525
-   ClientLeft      =   60
-   ClientTop       =   750
+   ClientLeft      =   45
+   ClientTop       =   735
    ClientWidth     =   10545
    Icon            =   "frmGame.frx":0000
    KeyPreview      =   -1  'True
@@ -194,6 +195,9 @@ Dim FirstClick As Boolean
 Attribute FirstClick.VB_VarUserMemId = 1073938464
 Dim FlagsCount() As Integer
 Dim MinesCount As Integer
+Dim FlaggedFlagsCount() As Integer
+Dim FlaggedMinesCount As Integer
+Dim ProcessingDblClick As Boolean
 
 Private Sub NewGame(Optional ByVal GameID As Long = -1)
     Dim I As Integer, J As Integer, K As Integer, Flag As Boolean
@@ -224,7 +228,8 @@ Private Sub NewGame(Optional ByVal GameID As Long = -1)
     Set BlankCells = New Collection
     Set BlankCellsGroups = New Collection
     ReDim FlagsCount(Board.MaxMinesPerCell - 1)
-
+    ReDim FlaggedFlagsCount(Board.MaxMinesPerCell - 1)
+    
     Me.picBoard.Width = CalcBoardWidth
     Me.picBoard.Height = CalcBoardHeight
     Form_Resize
@@ -344,7 +349,7 @@ Private Sub NewGame(Optional ByVal GameID As Long = -1)
         Next
     End If
 
-    If GameBoardType = 0 Then
+    'If GameBoardType = 0 Then
         Flag = False
         GameBoard3BV = BlankCellsGroups.Count
         For Y = 0 To Board.Height - 1
@@ -365,9 +370,9 @@ Private Sub NewGame(Optional ByVal GameID As Long = -1)
             Next X
         Next Y
         If GameBoard3BV > BlankCellsGroups.Count Then GameBoard3BV = GameBoard3BV - 1
-    Else
-        GameBoard3BV = -1
-    End If
+    'Else
+    '    GameBoard3BV = -1
+    'End If
 
     If Not ScreenSaverMode Then
         Dim img As Long, Count As Integer
@@ -411,6 +416,7 @@ Private Sub NewGame(Optional ByVal GameID As Long = -1)
 
     FirstClick = True
     MinesCount = Board.Mines
+    FlaggedMinesCount = 0
 
     tmrGame.Enabled = False
     GameStartTime = -1
@@ -418,12 +424,13 @@ Private Sub NewGame(Optional ByVal GameID As Long = -1)
     
     tmrClock.Enabled = True
     Dim ledItems As New Collection
-    ledItems.Add Array("date", 9, "", "", 1, enumLEDForeColor.ledfcGreen)
-    ledItems.Add Array("time", 9, "", "", 2, enumLEDForeColor.ledfcGreen)
     ledItems.Add Array("timer", 9, "00:00.000", " ", 0, enumLEDForeColor.ledfcRed)
+    ledItems.Add Array("mines", 9, Format(MinesCount), "0", 3, enumLEDForeColor.ledfcRed)
     For I = 1 To Board.MaxMinesPerCell
         ledItems.Add Array("flags" & Format(I), 9, Format(FlagsCount(I - 1)), "0", 3 + I, enumLEDForeColor.ledfcRed)
     Next I
+    ledItems.Add Array("time", 9, "", "", 2, enumLEDForeColor.ledfcGreen)
+    ledItems.Add Array("date", 9, "", "", 1, enumLEDForeColor.ledfcGreen)
     ledItems.Add Array("3BV", 9, IIf(GameBoard3BV = -1, "---------", Format(GameBoard3BV)), "0", 15, enumLEDForeColor.ledfcYellow)
     ledItems.Add Array("gameID", 9, Format(Board.GameID), "0", 14, enumLEDForeColor.ledfcYellow)
     Dim arrayLedItems
@@ -576,16 +583,19 @@ Private Sub ledBoard_Resize()
 End Sub
 
 Private Sub mnuActionsFlags_Click(Index As Integer)
+    CheckMinesCounter BoardData(Board.Pos2Dto1D(PopupMenuX, PopupMenuY)), -Index
     BoardData(Board.Pos2Dto1D(PopupMenuX, PopupMenuY)) = -Index
     PaintBoard PopupMenuX, PopupMenuY, 1, Index
 End Sub
 
 Private Sub mnuActionsNone_Click()
+    CheckMinesCounter BoardData(Board.Pos2Dto1D(PopupMenuX, PopupMenuY)), 0
     BoardData(Board.Pos2Dto1D(PopupMenuX, PopupMenuY)) = 0
     PaintBoard PopupMenuX, PopupMenuY, 0, 0
 End Sub
 
 Private Sub mnuActionsQuestions_Click(Index As Integer)
+    CheckMinesCounter BoardData(Board.Pos2Dto1D(PopupMenuX, PopupMenuY)), -500 - Index
     BoardData(Board.Pos2Dto1D(PopupMenuX, PopupMenuY)) = -500 - Index
     PaintBoard PopupMenuX, PopupMenuY, 2, Index
 End Sub
@@ -635,6 +645,10 @@ Private Sub mnuOptionsDifficultyItems_Click(Index As Integer)
     GameBoardMines = Val(config(2))
     GameMaxMinesPerCell = Val(config(3))
     NewGame
+End Sub
+
+Private Sub picBoard_DblClick()
+    ProcessingDblClick = True
 End Sub
 
 Private Sub picBoard_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
@@ -760,7 +774,8 @@ Private Sub picBoard_MouseUp(Button As Integer, Shift As Integer, X As Single, Y
     MousePos = CalcBoardMouseXY(X, Y)
     MouseX = MousePos(0)
     MouseY = MousePos(1)
-    If (MouseLeftPushed And MouseRightPushed) Or Button = 4 Then
+    If (MouseLeftPushed And MouseRightPushed) Or Button = 4 Or ProcessingDblClick = True Then
+        ProcessingDblClick = False
         If Button = 1 Then MouseLeftReleased = True
         If Button = 2 Then MouseRightReleased = True
         If MouseLeftReleased And MouseRightReleased Then
@@ -1021,11 +1036,13 @@ End Sub
 Private Sub tmrGame_Timer()
     Dim sngStart As Single
     Dim sngEnd As Single
+    Dim sngPeriod As Single
     sngStart = IIf(GameStartTime = -1, Timer, GameStartTime)
     sngEnd = IIf(GameEndTime = -1, Timer, GameEndTime)
-    If sngStart > sngEnd Then sngStart = sngStart + 86400
+    sngPeriod = sngEnd - sngStart
+    If sngPeriod < 0 Then sngPeriod = sngPeriod + 86400
     On Error Resume Next
-    Me.ledBoard.LEDs(, "timer").SetTimerMinuteSecondMilesecond sngEnd - sngStart
+    Me.ledBoard.LEDs(, "timer").SetTimerMinuteSecondMilesecond sngPeriod
     Err.Clear
 End Sub
 
@@ -1052,6 +1069,7 @@ again:
             Else
                 intNum = -Board.Board2D(X, Y)
             End If
+            CheckMinesCounter BoardData(Board.Pos2Dto1D(X, Y)), -intNum
             BoardData(Board.Pos2Dto1D(X, Y)) = -intNum
             PaintBoard X, Y, 1, intNum
         End If
@@ -1074,6 +1092,13 @@ Private Sub Form_Resize()
     Me.ledBoard.Move 8, 8, Me.ledBoard.Width, Me.ScaleHeight - 16
     Me.shapeBackground.Move Me.ledBoard.Width + ledBoard.Left + 8 + 2, 8, Me.ScaleWidth - Me.ledBoard.Width - ledBoard.Left - 8 - 2 - 8, Me.ScaleHeight - 16
     Me.picBoard.Move Me.shapeBackground.Left + (Me.shapeBackground.Width - Me.picBoard.Width) / 2, Me.shapeBackground.Top + (Me.shapeBackground.Height - Me.picBoard.Height) / 2
+    If Me.WindowState <> 0 Then Exit Sub
+    Static lngWidth As Long, lngHeight As Long
+    lngWidth = Me.shapeBackground.Left + Me.picBoard.Width + 8 + 2 + 16
+    lngHeight = Me.shapeBackground.Top + Me.picBoard.Height + 8 + 2 + 16
+    If Me.ScaleWidth <> lngWidth Or Me.ScaleHeight <> lngHeight Then
+        basForm.SetClientRect Me, lngWidth * Screen.TwipsPerPixelX, lngHeight * Screen.TwipsPerPixelY
+    End If
 End Sub
 
 Private Sub DrawBackground(ByVal sngX As Single, ByVal sngY As Single, ByVal sngWidth As Single, ByVal sngHeight As Single, Optional blnSunken As Boolean = False)
@@ -1095,4 +1120,37 @@ Private Sub Form_Paint()
     Line (2, 2)-(Me.ScaleWidth - 4, Me.ScaleHeight - 4), , BF
     DrawBackground ledBoard.Left, ledBoard.Top, ledBoard.Width, ledBoard.Height, False
     DrawBackground shapeBackground.Left, shapeBackground.Top, shapeBackground.Width, shapeBackground.Height, False
+End Sub
+
+Private Sub UpdateMinesCounter()
+    Dim I As Integer
+    UpdateMinesCounterInner "mines", MinesCount - FlaggedMinesCount
+    For I = 1 To Board.MaxMinesPerCell
+        UpdateMinesCounterInner "flags" & Format(I), FlagsCount(I - 1) - FlaggedFlagsCount(I - 1)
+    Next I
+End Sub
+
+Private Sub UpdateMinesCounterInner(ByVal strKey As String, ByVal lngNewValue As Long)
+    On Error Resume Next
+    If Val(ledBoard.LEDs(, strKey).Text) <> lngNewValue Then
+        ledBoard.LEDs(, strKey).Text = Format(lngNewValue)
+    End If
+End Sub
+
+Private Sub CheckMinesCounter(ByVal lngOldValue As Long, ByVal lngNewValue As Long)
+    Select Case lngOldValue
+        Case 0
+        Case Is < -500
+        Case Is < 0
+            FlaggedMinesCount = FlaggedMinesCount - Abs(lngOldValue)
+            FlaggedFlagsCount(Abs(lngOldValue) - 1) = FlaggedFlagsCount(Abs(lngOldValue) - 1) - 1
+    End Select
+    Select Case lngNewValue
+        Case 0
+        Case Is < -500
+        Case Is < 0
+            FlaggedMinesCount = FlaggedMinesCount + Abs(lngNewValue)
+            FlaggedFlagsCount(Abs(lngNewValue) - 1) = FlaggedFlagsCount(Abs(lngNewValue) - 1) + 1
+    End Select
+    UpdateMinesCounter
 End Sub

@@ -129,7 +129,6 @@ Public Property Get DefaultText() As String
 End Property
 
 Public Property Let DefaultText(ByVal New_DefaultText As String)
-    Dim I As Integer
     m_DefaultText = Left(New_DefaultText, 1)
     If InStr(1, m_LEDPictureChar, m_DefaultText) < 1 Then
         m_DefaultText = m_def_DefaultText

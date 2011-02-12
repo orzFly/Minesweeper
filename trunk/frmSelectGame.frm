@@ -37,21 +37,21 @@ Begin VB.Form frmSelectGame
       Cancel          =   -1  'True
       Caption         =   "cmdCancel"
       Height          =   360
-      Left            =   3600
+      Left            =   3240
       TabIndex        =   3
       Tag             =   "5"
       Top             =   840
-      Width           =   1095
+      Width           =   1455
    End
    Begin VB.CommandButton cmdOK 
       Caption         =   "cmdOK"
       Default         =   -1  'True
       Height          =   360
-      Left            =   2400
+      Left            =   2040
       TabIndex        =   2
       Tag             =   "4"
       Top             =   840
-      Width           =   1095
+      Width           =   1455
    End
    Begin VB.Label lblTitle 
       AutoSize        =   -1  'True

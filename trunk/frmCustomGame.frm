@@ -5,13 +5,13 @@ Begin VB.Form frmCustomGame
    ClientHeight    =   3090
    ClientLeft      =   45
    ClientTop       =   435
-   ClientWidth     =   3765
+   ClientWidth     =   5055
    Icon            =   "frmCustomGame.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   3090
-   ScaleWidth      =   3765
+   ScaleWidth      =   5055
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '所有者中心
    Tag             =   "6"
@@ -19,11 +19,11 @@ Begin VB.Form frmCustomGame
       Caption         =   "cmdOK"
       Default         =   -1  'True
       Height          =   360
-      Left            =   2280
+      Left            =   1920
       TabIndex        =   2
       Tag             =   "4"
       Top             =   2760
-      Width           =   1095
+      Width           =   1455
    End
    Begin VB.CommandButton cmdCancel 
       Cancel          =   -1  'True
@@ -33,7 +33,7 @@ Begin VB.Form frmCustomGame
       TabIndex        =   1
       Tag             =   "5"
       Top             =   2760
-      Width           =   1095
+      Width           =   1455
    End
    Begin orzMinesweeper.ctlLongNumberTextBox txtWidth 
       Height          =   300
