@@ -1,9 +1,13 @@
 Attribute VB_Name = "basForm"
-Public Function GetFormPaddingSize(ByVal hWnd As Long) As RECT
+'Project name: orzMinesweeper
+'Code license: GNU General Public License v3
+'Author      : Yeechan Lu a.k.a. orzFly <i@orzfly.com>
+
+Public Function GetFormPaddingSize(ByVal hwnd As Long) As RECT
     Dim OuterBorder As RECT
     Dim InnerBorder As RECT
-    basWin32API.GetWindowRect hWnd, OuterBorder
-    basWin32API.GetClientRect hWnd, InnerBorder
+    basWin32API.GetWindowRect hwnd, OuterBorder
+    basWin32API.GetClientRect hwnd, InnerBorder
     With GetFormPaddingSize
         .Left = 0
         .Top = 0
@@ -24,7 +28,7 @@ End Function
 Public Function SetClientRect(objForm As Form, lngWidth As Long, lngHeight As Long)
     Dim PaddingSize As RECT
     With objForm
-        PaddingSize = RectPixelToTwip(GetFormPaddingSize(.hWnd))
+        PaddingSize = RectPixelToTwip(GetFormPaddingSize(.hwnd))
         .Width = lngWidth + PaddingSize.Right - PaddingSize.Left
         .Height = lngHeight + PaddingSize.Bottom - PaddingSize.Top
     End With

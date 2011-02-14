@@ -1,4 +1,8 @@
 Attribute VB_Name = "basMD5"
+'Project name: orzMinesweeper
+'Code license: GNU General Public License v3
+'Author      : Yeechan Lu a.k.a. orzFly <i@orzfly.com>
+
 Private Const BITS_TO_A_BYTE = 8
 Private Const BYTES_TO_A_WORD = 4
 Private Const BITS_TO_A_WORD = 32

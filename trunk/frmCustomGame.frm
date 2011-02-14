@@ -20,7 +20,7 @@ Begin VB.Form frmCustomGame
       Default         =   -1  'True
       Height          =   360
       Left            =   1920
-      TabIndex        =   2
+      TabIndex        =   8
       Tag             =   "4"
       Top             =   2760
       Width           =   1455
@@ -30,7 +30,7 @@ Begin VB.Form frmCustomGame
       Caption         =   "cmdCancel"
       Height          =   360
       Left            =   3480
-      TabIndex        =   1
+      TabIndex        =   9
       Tag             =   "5"
       Top             =   2760
       Width           =   1455
@@ -38,7 +38,7 @@ Begin VB.Form frmCustomGame
    Begin orzMinesweeper.ctlLongNumberTextBox txtWidth 
       Height          =   300
       Left            =   120
-      TabIndex        =   0
+      TabIndex        =   1
       Top             =   480
       Width           =   4575
       _ExtentX        =   8070
@@ -56,7 +56,7 @@ Begin VB.Form frmCustomGame
    Begin orzMinesweeper.ctlLongNumberTextBox txtHeight 
       Height          =   300
       Left            =   120
-      TabIndex        =   4
+      TabIndex        =   3
       Top             =   1080
       Width           =   4575
       _ExtentX        =   8070
@@ -74,7 +74,7 @@ Begin VB.Form frmCustomGame
    Begin orzMinesweeper.ctlLongNumberTextBox txtMaxMinesPerCell 
       Height          =   300
       Left            =   120
-      TabIndex        =   6
+      TabIndex        =   5
       Top             =   1680
       Width           =   4575
       _ExtentX        =   8070
@@ -92,7 +92,7 @@ Begin VB.Form frmCustomGame
    Begin orzMinesweeper.ctlLongNumberTextBox txtMines 
       Height          =   300
       Left            =   120
-      TabIndex        =   8
+      TabIndex        =   7
       Top             =   2280
       Width           =   4575
       _ExtentX        =   8070
@@ -112,7 +112,7 @@ Begin VB.Form frmCustomGame
       Caption         =   "lblMines"
       Height          =   180
       Left            =   120
-      TabIndex        =   9
+      TabIndex        =   6
       Tag             =   "10"
       Top             =   2040
       Width           =   4560
@@ -123,7 +123,7 @@ Begin VB.Form frmCustomGame
       Caption         =   "lblMaxMinesPerCell"
       Height          =   180
       Left            =   120
-      TabIndex        =   7
+      TabIndex        =   4
       Tag             =   "9"
       Top             =   1440
       Width           =   4560
@@ -134,7 +134,7 @@ Begin VB.Form frmCustomGame
       Caption         =   "lblHeight"
       Height          =   180
       Left            =   120
-      TabIndex        =   5
+      TabIndex        =   2
       Tag             =   "8"
       Top             =   840
       Width           =   4560
@@ -145,7 +145,7 @@ Begin VB.Form frmCustomGame
       Caption         =   "lblWidth"
       Height          =   180
       Left            =   120
-      TabIndex        =   3
+      TabIndex        =   0
       Tag             =   "7"
       Top             =   120
       Width           =   4560
@@ -157,6 +157,10 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'Project name: orzMinesweeper
+'Code license: GNU General Public License v3
+'Author      : Yeechan Lu a.k.a. orzFly <i@orzfly.com>
+
 Option Explicit
 
 Private Sub cmdCancel_Click()
@@ -195,6 +199,7 @@ Private Sub Form_Load()
         obj.Caption = LoadResString(Val(obj.Tag))
         obj.Text = LoadResString(Val(obj.HelpContextID))
         obj.Caption = LoadResString(Val(obj.HelpContextID))
+        obj.FontName = LoadResString(198)
     Next
 
     UpdatePrompt Me.lblWidth, Me.txtWidth.MinValue, Me.txtWidth.MaxValue

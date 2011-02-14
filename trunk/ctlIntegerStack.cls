@@ -11,6 +11,10 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
+'Project name: orzMinesweeper
+'Code license: GNU General Public License v3
+'Author      : Yeechan Lu a.k.a. orzFly <i@orzfly.com>
+
 Dim col As New Collection
 
 Public Sub Push(ByVal value As Integer)

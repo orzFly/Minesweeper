@@ -15,15 +15,6 @@ Begin VB.Form frmGame
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   703
    StartUpPosition =   1  '所有者中心
-   Begin orzMinesweeper.ctlLEDBoard ledBoard 
-      Height          =   615
-      Left            =   6960
-      TabIndex        =   1
-      Top             =   1800
-      Width           =   3375
-      _ExtentX        =   5503
-      _ExtentY        =   1085
-   End
    Begin VB.Timer tmrClock 
       Enabled         =   0   'False
       Interval        =   200
@@ -52,14 +43,23 @@ Begin VB.Form frmGame
       AutoRedraw      =   -1  'True
       BackColor       =   &H00C0C0C0&
       BorderStyle     =   0  'None
-      Height          =   3615
-      Left            =   5400
-      ScaleHeight     =   241
+      Height          =   2055
+      Left            =   120
+      ScaleHeight     =   137
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   241
+      ScaleWidth      =   161
+      TabIndex        =   1
+      Top             =   1200
+      Width           =   2415
+   End
+   Begin orzMinesweeper.ctlLEDBoard ledBoard 
+      Height          =   375
+      Left            =   0
       TabIndex        =   0
-      Top             =   240
-      Width           =   3615
+      Top             =   600
+      Width           =   3375
+      _ExtentX        =   5503
+      _ExtentY        =   661
    End
    Begin VB.Shape shapeBackground 
       BackColor       =   &H80000000&
@@ -68,8 +68,8 @@ Begin VB.Form frmGame
       FillColor       =   &H00C0C0C0&
       FillStyle       =   0  'Solid
       Height          =   3855
-      Left            =   7800
-      Top             =   1920
+      Left            =   3360
+      Top             =   0
       Width           =   3855
    End
    Begin VB.Menu mnuGame 
@@ -87,11 +87,20 @@ Begin VB.Form frmGame
       End
       Begin VB.Menu mnuGameDummyA 
          Caption         =   "-"
+         Visible         =   0   'False
       End
       Begin VB.Menu mnuGameStatistics 
          Caption         =   "mnuGameStatistics"
          HelpContextID   =   103
          Shortcut        =   {F4}
+         Visible         =   0   'False
+      End
+      Begin VB.Menu mnuGameDummyB 
+         Caption         =   "-"
+      End
+      Begin VB.Menu mnuGameExit 
+         Caption         =   "mnuGameExit"
+         HelpContextID   =   104
       End
    End
    Begin VB.Menu mnuOptions 
@@ -130,6 +139,14 @@ Begin VB.Form frmGame
          End
       End
    End
+   Begin VB.Menu mnuHelp 
+      Caption         =   "mnuHelp"
+      HelpContextID   =   300
+      Begin VB.Menu mnuHelpAbout 
+         Caption         =   "mnuHelpAbout"
+         HelpContextID   =   301
+      End
+   End
    Begin VB.Menu mnuPopup 
       Caption         =   "mnuPopup"
       Begin VB.Menu mnuActions 
@@ -155,6 +172,10 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'Project name: orzMinesweeper
+'Code license: GNU General Public License v3
+'Author      : Yeechan Lu a.k.a. orzFly <i@orzfly.com>
+
 Option Explicit
 
 Public Board As clsMinesweeperBoard
@@ -399,7 +420,7 @@ Private Sub NewGame(Optional ByVal GameID As Long = -1)
             End With
         Next I
 
-        InsertMenu mHandle, 2, MF_BYPOSITION Or MF_POPUP Or MF_STRING, sHandle, ""
+        InsertMenu mHandle, 3, MF_BYPOSITION Or MF_POPUP Or MF_STRING, sHandle, ""
         img = GetBitMapHandle(0): SetMenuItemBitmaps dHandle, 0, MF_BYPOSITION, img, img
         Count = 1
         For I = 1 To GameMaxMinesPerCell
@@ -410,8 +431,8 @@ Private Sub NewGame(Optional ByVal GameID As Long = -1)
             img = GetBitMapHandle(-I): SetMenuItemBitmaps dHandle, Count, MF_BYPOSITION, img, img
             Count = Count + 1
         Next I
-        RemoveMenu mHandle, 2, MF_BYPOSITION
-        DrawMenuBar Me.hWnd
+        RemoveMenu mHandle, 3, MF_BYPOSITION
+        DrawMenuBar Me.hwnd
     End If
 
     FirstClick = True
@@ -514,16 +535,16 @@ Private Sub Form_Load()
 
         Dim lStyle As Long
         Dim tR As RECT
-        GetWindowRect Me.hWnd, tR
-        lStyle = GetWindowLong(Me.hWnd, GWL_STYLE)
+        GetWindowRect Me.hwnd, tR
+        lStyle = GetWindowLong(Me.hwnd, GWL_STYLE)
         Me.Tag = Me.Caption
         Me.Caption = " "
         lStyle = lStyle And Not WS_SYSMENU
         lStyle = lStyle And Not WS_MAXIMIZEBOX
         lStyle = lStyle And Not WS_MINIMIZEBOX
         lStyle = lStyle And Not WS_CAPTION
-        SetWindowLong Me.hWnd, GWL_STYLE, lStyle
-        SetWindowPos Me.hWnd, 0, tR.Left, tR.Top, tR.Right - tR.Left, tR.Bottom - tR.Top, SWP_NOREPOSITION Or SWP_NOZORDER Or SWP_FRAMECHANGED
+        SetWindowLong Me.hwnd, GWL_STYLE, lStyle
+        SetWindowPos Me.hwnd, 0, tR.Left, tR.Top, tR.Right - tR.Left, tR.Bottom - tR.Top, SWP_NOREPOSITION Or SWP_NOZORDER Or SWP_FRAMECHANGED
 
         Me.WindowState = 2
 
@@ -536,10 +557,10 @@ Private Sub Form_Load()
     Else
         Me.mnuActionsFlags(0).Visible = False
         Me.mnuActionsQuestions(0).Visible = False
-        mHandle = GetMenu(hWnd)
-        sHandle = GetSubMenu(mHandle, 2)
+        mHandle = GetMenu(hwnd)
+        sHandle = GetSubMenu(mHandle, 3)
         dHandle = GetSubMenu(sHandle, 0)
-        RemoveMenu mHandle, 2, MF_BYPOSITION
+        RemoveMenu mHandle, 3, MF_BYPOSITION
 
         For Each obj In Me.Controls
             If TypeOf obj Is Menu Then
@@ -600,6 +621,10 @@ Private Sub mnuActionsQuestions_Click(Index As Integer)
     PaintBoard PopupMenuX, PopupMenuY, 2, Index
 End Sub
 
+Private Sub mnuGameExit_Click()
+    Unload Me
+End Sub
+
 Private Sub mnuGameNewGame_Click()
     NewGame -1
 End Sub
@@ -607,6 +632,10 @@ End Sub
 Private Sub mnuGameSelectGame_Click()
     frmSelectGame.Show 1, Me
     If basMain.SelectGameResult > 0 Then NewGame basMain.SelectGameResult
+End Sub
+
+Private Sub mnuHelpAbout_Click()
+    frmAbout.Show 1, Me
 End Sub
 
 Private Sub mnuOptionsBoardTypeDiamond_Click()
@@ -667,7 +696,7 @@ Private Sub picBoard_MouseDown(Button As Integer, Shift As Integer, X As Single,
         temp = GetMenuCheckMarkDimensions
         h = temp / 2 ^ 16
         Dim rc As RECT
-        GetMenuItemRect Me.hWnd, dHandle, 0, rc
+        GetMenuItemRect Me.hwnd, dHandle, 0, rc
         h = rc.Bottom - rc.Top
         Dim def As Menu
         Select Case data
@@ -1089,6 +1118,8 @@ Private Sub tmrScreenSaverWaiter_Timer()
 End Sub
 
 Private Sub Form_Resize()
+    If Me.WindowState = 1 Then Exit Sub
+    
     Me.ledBoard.Move 8, 8, Me.ledBoard.Width, Me.ScaleHeight - 16
     Me.shapeBackground.Move Me.ledBoard.Width + ledBoard.Left + 8 + 2, 8, Me.ScaleWidth - Me.ledBoard.Width - ledBoard.Left - 8 - 2 - 8, Me.ScaleHeight - 16
     Me.picBoard.Move Me.shapeBackground.Left + (Me.shapeBackground.Width - Me.picBoard.Width) / 2, Me.shapeBackground.Top + (Me.shapeBackground.Height - Me.picBoard.Height) / 2

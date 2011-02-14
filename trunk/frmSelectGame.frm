@@ -5,13 +5,13 @@ Begin VB.Form frmSelectGame
    ClientHeight    =   1335
    ClientLeft      =   2760
    ClientTop       =   3750
-   ClientWidth     =   3840
+   ClientWidth     =   5565
    Icon            =   "frmSelectGame.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   1335
-   ScaleWidth      =   3840
+   ScaleWidth      =   5565
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  '所有者中心
    Tag             =   "2"
@@ -70,6 +70,10 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'Project name: orzMinesweeper
+'Code license: GNU General Public License v3
+'Author      : Yeechan Lu a.k.a. orzFly <i@orzfly.com>
+
 Option Explicit
 
 Private Sub cmdCancel_Click()
@@ -97,6 +101,7 @@ Private Sub Form_Load()
         obj.Caption = LoadResString(Val(obj.Tag))
         obj.Text = LoadResString(Val(obj.HelpContextID))
         obj.Caption = LoadResString(Val(obj.HelpContextID))
+        obj.FontName = LoadResString(198)
     Next
 
     Me.lblTitle.Caption = Replace(Replace(Me.lblTitle.Caption, "%l", Format(txtGameID.MinValue)), "%u", Format(txtGameID.MaxValue))

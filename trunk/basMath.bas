@@ -1,4 +1,8 @@
 Attribute VB_Name = "basMath"
+'Project name: orzMinesweeper
+'Code license: GNU General Public License v3
+'Author      : Yeechan Lu a.k.a. orzFly <i@orzfly.com>
+
 Option Explicit
 
 Public Function Max(ParamArray Values() As Variant) As Variant

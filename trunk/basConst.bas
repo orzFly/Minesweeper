@@ -1,4 +1,8 @@
 Attribute VB_Name = "basConst"
+'Project name: orzMinesweeper
+'Code license: GNU General Public License v3
+'Author      : Yeechan Lu a.k.a. orzFly <i@orzfly.com>
+
 '游戏局数区间
 Public Const GameIDMin = 1#
 Public Const GameIDMax = 999999999#

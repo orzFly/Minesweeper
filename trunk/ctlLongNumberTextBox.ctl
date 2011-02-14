@@ -20,13 +20,16 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
+'Project name: orzMinesweeper
+'Code license: GNU General Public License v3
+'Author      : Yeechan Lu a.k.a. orzFly <i@orzfly.com>
+
 Public Enum enumLNTBBorderStyle
     lntbbsNone = 0
     lntbbsFixedSingle = 1
 End Enum
-
 Private Declare Function ReleaseCapture Lib "user32" () As Long
-Private Declare Function SetCapture Lib "user32" (ByVal hWnd As Long) As Long
+Private Declare Function SetCapture Lib "user32" (ByVal hwnd As Long) As Long
 
 Private m_MinValue As Long
 Private m_MaxValue As Long
@@ -172,7 +175,7 @@ End Sub
 
 Private Sub txtBase_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     If Button = 1 Then
-        SetCapture Me.hWnd
+        SetCapture Me.hwnd
         m_MouseX = X
         m_MouseY = Y
         m_MouseValue = value
@@ -236,9 +239,9 @@ Public Property Let value(ByVal New_Value As Long)
     PropertyChanged "Value"
 End Property
 
-Public Property Get hWnd() As Long
-Attribute hWnd.VB_Description = "返回一个句柄到(from Microsoft Windows)一个对象的窗口。"
-    hWnd = txtBase.hWnd
+Public Property Get hwnd() As Long
+Attribute hwnd.VB_Description = "返回一个句柄到(from Microsoft Windows)一个对象的窗口。"
+    hwnd = txtBase.hwnd
 End Property
 
 Public Property Get Locked() As Boolean
@@ -324,3 +327,12 @@ Public Sub Random()
     Randomize
     value = Int(Rnd() * (MaxValue - MinValue) + MinValue)
 End Sub
+
+Public Property Get FontName() As String
+    FontName = txtBase.FontName
+End Property
+
+Public Property Let FontName(ByVal bFontName As String)
+    txtBase.FontName = bFontName
+    Call UserControl.PropertyChanged("FontName")
+End Property
