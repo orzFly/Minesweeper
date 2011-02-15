@@ -1,4 +1,4 @@
-frmGame = -82, 37, 775, 508, C, 50, 144, 907, 632, C
+frmGame = -82, 37, 775, 508, Z, 50, 144, 907, 632, C
 clsMinesweeperBoard = 25, 21, 656, 510, C
 basMath = 0, 0, 631, 489, C
 basWin32API = 66, 87, 697, 576, C
