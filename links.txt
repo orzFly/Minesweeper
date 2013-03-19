@@ -1,0 +1,5 @@
+李海. Visual Basic 中使用资源的技巧. http://www.zealsoftstudio.com/articles/vbres.htm (查于 2010 年 10 月 1 日)
+刘瑞新, 崔淼. Visual Basic 程序设计实践教程. 北京：机械工业出版社，2003.5：97、98、99、100、101
+佚名. 产生任意范围内的等概率随机数. http://blog.pfan.cn/rickone/3890.html (查于 2010 年 10 月 5 日)
+佚名. 关于随机数生成. http://blog.pfan.cn/rickone/8553.html (查于 2010 年 10 月 5 日)
+佚名. 随机数的算法分析. http://www.yuanma.org/data/2007/0802/article_2788.htm (查于 2010 年 10 月 5 日)
